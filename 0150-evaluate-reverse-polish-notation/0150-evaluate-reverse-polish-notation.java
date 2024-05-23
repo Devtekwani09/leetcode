@@ -10,20 +10,20 @@ class Solution {
             }
             
             else{
-                int a = st.pop();
                 int b = st.pop();
+                int a = st.pop();
                 
                 if(tokens[i].equals("+")){
                     st.push(a+b);
                 }
                 else if(tokens[i].equals("-")){
-                    st.push(b-a);
+                    st.push(a-b);
                 }
                 else if(tokens[i].equals("*")){
                     st.push(a*b);
                 }
                 else{
-                    st.push(b/a);
+                    st.push(a/b);
                 }
             }
             
