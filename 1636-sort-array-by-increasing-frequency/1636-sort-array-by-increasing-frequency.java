@@ -1,22 +1,41 @@
 class Solution {
     public int[] frequencySort(int[] nums) {
-        Map<Integer, Integer> map = new HashMap<>();
-        for (int num : nums) {
-            map.put(num, map.getOrDefault(num, 0) + 1);
-        }
-        List<Map.Entry<Integer, Integer>> list = new ArrayList(map.entrySet());
-        Collections.sort(list, (a,b) -> a.getValue() == b.getValue() ? b.getKey() - a.getKey() : a.getValue() - b.getValue());
-        int index = 0;
-        int[] res = new int[nums.length];
-        for (Map.Entry<Integer, Integer> entry : list) {
-            
-            int count = entry.getValue();
-            int key = entry.getKey();
-            
-            for (int i=0; i<count; i++) {
-                res[index++] = key;
+        HashMap<Integer,Integer> map = new HashMap<>();
+        
+        for(int i=0; i<nums.length; i++){
+            if(map.containsKey(nums[i])){
+                map.put(nums[i], map.get(nums[i])+1);
+            }
+            else{
+                map.put(nums[i],1);
             }
         }
-        return res;
+        
+        Integer temp[] = new Integer [map.size()];
+        int i=0;
+        for(Integer key : map.keySet()){
+            temp[i] = key;
+            i++;
+        }
+        Arrays.sort(temp, new Comparator<Integer>(){
+            public int compare(Integer a, Integer b){
+                if(map.get(a) == map.get(b)){
+                    return b - a;
+                }
+                 return map.get(a) - map.get(b);
+            }
+        });
+        
+        i=0;
+        for(Integer key : temp){
+            int freq = map.get(key);
+            for(int j=0; j<freq; j++){
+                nums[i] = key;
+                i++;
+            }
+        }
+        
+        return nums;
+            
     }
 }
