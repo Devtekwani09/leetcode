@@ -3,32 +3,30 @@ class Solution {
         int n = rating.length;
         int count = 0;
         
-        for(int i=0; i<n-2; i++){
-            int first = rating[i];
-            for(int j = i+1; j<n-1; j++){
-                if(rating[j]>first){
-                    int second = rating[j];
-                    for(int k=j+1; k<n; k++){
-                        if(rating[k] > second){
-                            count++;
-                        }
-                    }
+        for(int mid = 1; mid<n-1; mid++){
+            int leftMinCount = 0;
+            int rightMaxCount = 0;
+            
+            for(int i=0; i<mid; i++){
+                if(rating[i] < rating[mid]){
+                    leftMinCount++;
                 }
             }
-        }
-        
-        for(int i=0; i<n-2; i++){
-            int first = rating[i];
-            for(int j = i+1; j<n-1; j++){
-                if(rating[j]<first){
-                    int second = rating[j];
-                    for(int k=j+1; k<n; k++){
-                        if(rating[k] < second){
-                            count++;
-                        }
-                    }
+            
+            for(int i=mid+1; i<n; i++){
+                if(rating[i] > rating[mid]){
+                    rightMaxCount++;
                 }
             }
+            
+            count += leftMinCount * rightMaxCount;
+            
+            int leftMaxCount = mid - leftMinCount;
+            int rightMinCount = n-mid-1 - rightMaxCount;
+            
+            count += leftMaxCount * rightMinCount;
+            
+            
         }
         
         return count;
