@@ -1,10 +1,16 @@
 class Solution {
     public List<Integer> diffWaysToCompute(String expression) {
-        return recc(expression, 0, expression.length()-1);
+        int n = expression.length();
+        List<Integer>[][] dp = new ArrayList[n][n];
+        return recc(expression, 0, n-1, dp);
     }
     
-    public List<Integer> recc(String exp, int start, int end){
+    public List<Integer> recc(String exp, int start, int end, List<Integer>[][] dp){
         List<Integer> ans = new ArrayList<>();
+        
+        if(dp[start][end] != null){
+            return dp[start][end];
+        }
         
         //single digit
         if(start == end){
@@ -29,8 +35,8 @@ class Solution {
             
             char op = exp.charAt(i);
             
-            List<Integer> left = recc(exp, start, i-1);
-            List<Integer> right = recc(exp, i+1, end);
+            List<Integer> left = recc(exp, start, i-1, dp);
+            List<Integer> right = recc(exp, i+1, end, dp);
             
             for(int j: left){
                 for(int k : right){
@@ -46,6 +52,8 @@ class Solution {
                 }
             }
         }
+        
+        dp[start][end] = ans;
         
         return ans;
     }
